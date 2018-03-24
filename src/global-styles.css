@@ -4,6 +4,7 @@ html {
   --app-theme-color: #0267c1;
   --app-text-primary-color: #222222;
   --app-text-secondary-color: #767676;
+  --app-border-color: #e2e2e2;
   font-size: 14px;
 }
 
@@ -14,4 +15,18 @@ body {
 h1 {
   font-weight: bold;
   font-size: 18px;
+}
+
+.button-reset {
+  background: none;
+  border: none;
+  display: block;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  -webkit-appearance: none;
 }

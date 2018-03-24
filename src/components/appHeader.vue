@@ -33,6 +33,7 @@ export default {};
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 0.3);
 }
 #title {
   flex: 1;
