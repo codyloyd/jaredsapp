@@ -15,8 +15,6 @@ const appStore = {
       return state.categories.find(c => c.name === name);
     },
     categories: state => {
-      console.log("categories getter");
-      console.log(state.categories);
       return state.categories;
     },
     item: state => itemName => {
@@ -39,19 +37,15 @@ const appStore = {
     },
     addCategory(state, payload) {
       state.categories.push(payload.category);
-      console.log(state.categories);
     },
     addItem(state, payload) {
       state.items[payload.category].push(payload.item);
     }
   },
   actions: {
-    getCategories(context) {
-      console.log(db.categories);
+    getData(context) {
       db.categories.toArray().then(a => {
-        const categories = a.map(c => c.name);
-        console.log(categories);
-        context.commit("setCategories", { categories });
+        context.commit("setCategories", { categories: a });
       });
     },
     getItem(context, payload) {

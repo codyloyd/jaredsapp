@@ -11,8 +11,7 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   created() {
-    this.getCategories();
-    this.getItem({ item: "ramen" });
+    this.getData();
   },
   name: "app",
   computed: {
@@ -22,7 +21,7 @@ export default {
     return {};
   },
   methods: {
-    ...mapActions(["getItem", "getCategories", "addCategory", "addItem"])
+    ...mapActions(["getItem", "getData", "addCategory", "addItem"])
   }
 };
 </script>

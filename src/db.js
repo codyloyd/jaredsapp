@@ -12,6 +12,10 @@ db.on("populate", () => {
     name: "food",
     items: ["ramen", "easy mac", "ham sammy"]
   });
+  db.categories.add({
+    name: "not food",
+    items: ["ramen", "easy mac", "ham sammy"]
+  });
   db.items.add({
     name: "ramen",
     category: "food",

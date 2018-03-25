@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="button-reset" @click="getItem(item)"></button>
+    <slot></slot>
   </div>
 </template>
 

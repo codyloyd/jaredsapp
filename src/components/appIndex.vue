@@ -3,8 +3,8 @@
     <app-layout headerTitle="app name">
       <template v-for="category in categories">
         <app-list-item>
-          <router-link :to="category" tag="button" class="button-reset">
-            {{category}} <app-chevron-right-icon fill="var(--app-border-color)"></app-chevron-right-icon>
+          <router-link :to="category.name" tag="button" class="button-reset">
+            {{category.name}} <app-chevron-right-icon fill="var(--app-border-color)"></app-chevron-right-icon>
           </router-link>
         </app-list-item>
       </template>

@@ -3,7 +3,7 @@
     <app-layout :headerTitle="categoryName" :leftHeaderButton="leftHeaderButton">
       <template v-for="item in category(categoryName).items">
         <app-list-item :item="item">
-          {{item}}
+          <button class="button-reset" @click="getItem({item: item})">{{item}}</button>
         </app-list-item>
       </template>
     </app-layout>
