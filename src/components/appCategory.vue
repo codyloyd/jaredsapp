@@ -3,7 +3,7 @@
     <app-layout :headerTitle="categoryName" :leftHeaderButton="leftHeaderButton">
       <template v-for="item in category(categoryName).items">
         <app-list-item :item="item">
-          <button class="button-reset" @click="getItem({item: item})">{{item}}</button>
+          <button class="button-reset" @click="navToItem(item)">{{item}}</button>
         </app-list-item>
       </template>
     </app-layout>
@@ -36,7 +36,11 @@ export default {
   computed: { ...mapGetters(["category"]) },
   methods: {
     ...mapMutations(["setRouteTransition"]),
-    ...mapActions(["getItem"])
+    ...mapActions(["getItem"]),
+    navToItem(item) {
+      this.setRouteTransition({ transition: "slide-left" });
+      this.$router.push(this.categoryName + "/" + item);
+    }
   }
 };
 </script>
