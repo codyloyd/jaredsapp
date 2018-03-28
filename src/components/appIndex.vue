@@ -8,12 +8,6 @@
         </router-link>
       </app-list-item>
     </template>
-    <!-- <img :src="image" alt=""> -->
-    <!-- <form @submit.prevent="submitForm"> -->
-    <!--   <input type="file" name=image> -->
-    <!--   <button>submit</button> -->
-    <!-- </form> -->
-    <!-- <button @click="getImage">image</button> -->
   </app-layout>
 </div>
 </template>
@@ -39,6 +33,7 @@ import appChevronRightIcon from "./icons/appChevronRightIcon.vue";
 export default {
   created() {
     this.setRouteTransition({ transition: "slide-left" });
+    console.log(this.categories);
   },
   components: {
     appLayout,
@@ -49,7 +44,6 @@ export default {
   computed: { ...mapGetters(["categories", "addingCategory"]) },
   data() {
     return {
-      image: "",
       rightHeaderButton: {
         fn: () => {
           this.setAddingCategory(true);
@@ -60,20 +54,7 @@ export default {
   },
   methods: {
     ...mapMutations(["setRouteTransition", "setAddingCategory"]),
-    ...mapActions(["addCategory"]),
-    getImage() {
-      console.log(this.image);
-    },
-    submitForm(e) {
-      console.log(e.target.image.files[0]);
-      var reader = new FileReader();
-
-      reader.onload = function(event) {
-        this.image = event.target.result;
-      }.bind(this);
-
-      reader.readAsDataURL(e.target.image.files[0]);
-    }
+    ...mapActions(["addCategory"])
   }
 };
 </script>

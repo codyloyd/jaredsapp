@@ -4,11 +4,15 @@ const appStore = {
   state: {
     title: "HELLO TITLE",
     categories: [],
-    items: {},
+    items: [],
     routeTransition: "slide",
-    addingCategory: false
+    addingCategory: false,
+    addingItem: false
   },
   getters: {
+    addingItem: state => {
+      return state.addingItem;
+    },
     addingCategory: state => {
       return state.addingCategory;
     },
@@ -19,8 +23,12 @@ const appStore = {
       return state.categories;
     },
     item: state => itemName => {
-      console.log(state.items[itemName]);
-      return state.items[itemName];
+      return state.items.find(i => i.name === itemName);
+    },
+    items: state => categoryName => {
+      return state.items.filter(item => {
+        return item.category == categoryName;
+      });
     },
     routeTransition: state => {
       return state.routeTransition;
@@ -30,25 +38,27 @@ const appStore = {
     setAddingCategory(state, payload) {
       state.addingCategory = payload;
     },
+    setAddingItem(state, payload) {
+      state.addingItem = payload;
+    },
     setRouteTransition(state, payload) {
       state.routeTransition = payload.transition;
     },
     setCategories(state, payload) {
       state.categories = payload.categories;
     },
-    setItems(state, payload) {
-      state.items[payload.category] = payload.items;
-    },
     addCategory(state, payload) {
       state.categories.push(payload.category);
     },
     addItem(state, payload) {
-      state.items[payload.item.name] = payload.item;
+      if (!state.items.find(item => item.name === payload.item.name)) {
+        state.items.push(payload.item);
+      }
     }
   },
   actions: {
     getData(context) {
-      db.categories.toArray().then(a => {
+      return db.categories.toArray().then(a => {
         context.commit("setCategories", { categories: a });
       });
     },
@@ -58,24 +68,37 @@ const appStore = {
         return;
       });
     },
+    getItems(context, payload) {
+      return db.categories
+        .where("name")
+        .equals(payload.category)
+        .toArray()
+        .then(c => {
+          return Promise.all(
+            c[0].items.map(item => {
+              return db.items.get({ name: item }).then(a => {
+                context.commit("addItem", { item: a });
+              });
+            })
+          );
+        });
+    },
     addCategory(context, payload) {
       if (!payload.image) {
         payload.image == "";
       }
-      db.categories
-        .add({ name: payload.name, image: payload.image })
-        .then(result => {});
+      db.categories.add({ name: payload.name, items: [] }).then(result => {});
     },
     addItem(context, payload) {
-      db.categories
+      return db.categories
         .where("name")
         .equals(payload.category)
-        .modify(c => {
-          if (c.items) {
-            c.items.push(payload.item);
-          } else {
-            c.items = [payload.item];
-          }
+        .modify(category => {
+          category.items.push(payload.name);
+        })
+        .then(() => {
+          context.commit("addItem", { item: payload });
+          return db.items.add(payload).then(result => {});
         });
     }
   }

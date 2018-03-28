@@ -2,27 +2,13 @@
   <appModal :closeFunction="closeCategoryForm">
     <div class="modal-container">
       <h2>New category</h2>
-      <input name="category" placeholder="category title" type="text" v-model="categoryName" value=""/>
-      <button class="button" @click="buttonClick">create</button>
+      <form>
+        <input autofocus name="category" placeholder="category title" type="text" v-model="categoryName" value=""/>
+        <button class="button" @click.prevent="buttonClick">create</button>
+      </form>
     </div>
   </appModal>
 </template>
-
-<style scoped>
-h2 {
-  font-size: 1em;
-  font-weight: 400;
-}
-.modal-container {
-  text-align: center;
-}
-input,
-button {
-  box-sizing: border-box;
-  width: calc(100% - 2rem);
-  margin: 0 1rem 1rem;
-}
-</style>
 
 <script>
 import { mapActions, mapMutations } from "vuex";
@@ -49,3 +35,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+h2 {
+  font-size: 1em;
+  font-weight: 400;
+}
+.modal-container {
+  text-align: center;
+}
+input,
+button {
+  box-sizing: border-box;
+  width: calc(100% - 2rem);
+  margin: 0 1rem 1rem;
+}
+</style>

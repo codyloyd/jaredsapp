@@ -1,28 +1,62 @@
 <template>
   <div>
-    <div class="backdrop" @click="closeFunction"></div>
-    <div class="modal">
-      <slot></slot>
-    </div>
+    <transition name="fade" @after-leave="afterLeave">
+      <div v-if="modalShowing" class="backdrop" @click="modalShowing=false"></div>
+    </transition>
+    <transition name="fade-in-down">
+      <div v-if="modalShowing" class="modal">
+        <slot></slot>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 export default {
   created() {
-    const closeModal = e => {
-      if (e.keyCode == 27) {
-        this.closeFunction();
-        document.removeEventListener("keyup", closeModal);
-      }
+    document.addEventListener("keyup", this.closeModal);
+  },
+  mounted() {
+    this.modalShowing = true;
+  },
+  data() {
+    return {
+      modalShowing: false
     };
-    document.addEventListener("keyup", closeModal);
+  },
+  methods: {
+    afterLeave() {
+      this.closeFunction();
+      document.removeEventListener("keyup", this.closeModal);
+    },
+    closeModal(e) {
+      if (e.keyCode == 27) {
+        this.modalShowing = false;
+      }
+    }
   },
   props: ["closeFunction"]
 };
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-in-down-enter-active,
+.fade-in-down-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+.fade-in-down-enter,
+.fade-in-down-leave-to {
+  opacity: 0;
+  transform: translateY(-100%);
+}
 .backdrop {
   position: absolute;
   top: 0;
