@@ -5,7 +5,7 @@ html {
   --app-text-primary-color: #222222;
   --app-text-secondary-color: #767676;
   --app-border-color: #e2e2e2;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 body {
@@ -14,7 +14,25 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 1.5rem;
+}
+
+.button {
+    background: var(--app-theme-color);  
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-family: inherit;
+    font-size: .8em;
+    padding: .5em 2em;
+}
+
+input {
+    border: 1px solid var(--app-border-color);
+    border-radius: 4px;
+    padding: .5em 1em;
+    font-family: inherit;
+    font-size: .8em;
 }
 
 .button-reset {

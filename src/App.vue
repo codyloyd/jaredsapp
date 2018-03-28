@@ -1,26 +1,32 @@
 <template>
-  <div id="app">
-    <transition :name="routeTransition">
-      <router-view></router-view>
-    </transition>
-  </div>
+<div id="app">
+  <transition :name="routeTransition">
+    <router-view></router-view>
+  </transition>
+  <template v-if="addingCategory">
+    <app-new-category-form></app-new-category-form> 
+  </template>
+</div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
+import appNewCategoryForm from "./components/appNewCategoryForm.vue";
 
 export default {
   created() {
     this.getData();
   },
+  components: { appNewCategoryForm },
   name: "app",
   computed: {
-    ...mapGetters(["routeTransition"])
+    ...mapGetters(["routeTransition", "addingCategory"])
   },
   data() {
     return {};
   },
   methods: {
+    ...mapMutations(["setAddingCategory"]),
     ...mapActions(["getItem", "getData", "addCategory", "addItem"])
   }
 };
@@ -34,7 +40,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  transition: transform 0.4s cubic-bezier(0.69, 0.01, 0.3, 0.96);
+  transition: transform 0.2s cubic-bezier(0.69, 0.01, 0.3, 0.96);
 }
 
 .slide-right-leave {
@@ -44,7 +50,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  transition: transform 0.4s cubic-bezier(0.69, 0.01, 0.3, 0.96);
+  transition: transform 0.2s cubic-bezier(0.69, 0.01, 0.3, 0.96);
   transform: translateX(100%);
 }
 
@@ -55,7 +61,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  transition: transform 0.4s cubic-bezier(0.69, 0.01, 0.3, 0.96);
+  transition: transform 0.2s cubic-bezier(0.69, 0.01, 0.3, 0.96);
 }
 
 .slide-left-leave {
@@ -65,7 +71,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  transition: transform 0.4s cubic-bezier(0.69, 0.01, 0.3, 0.96);
+  transition: transform 0.2s cubic-bezier(0.69, 0.01, 0.3, 0.96);
   transform: translateX(-100%);
 }
 </style>

@@ -5,11 +5,12 @@ const appStore = {
     title: "HELLO TITLE",
     categories: [],
     items: {},
-    routeTransition: "slide"
+    routeTransition: "slide",
+    addingCategory: false
   },
   getters: {
-    lowerCaseTitle: state => {
-      return state.title.toLowerCase();
+    addingCategory: state => {
+      return state.addingCategory;
     },
     category: state => name => {
       return state.categories.find(c => c.name === name);
@@ -18,14 +19,17 @@ const appStore = {
       return state.categories;
     },
     item: state => itemName => {
-      // fix single item
-      return state.items;
+      console.log(state.items[itemName]);
+      return state.items[itemName];
     },
     routeTransition: state => {
       return state.routeTransition;
     }
   },
   mutations: {
+    setAddingCategory(state, payload) {
+      state.addingCategory = payload;
+    },
     setRouteTransition(state, payload) {
       state.routeTransition = payload.transition;
     },
@@ -39,7 +43,7 @@ const appStore = {
       state.categories.push(payload.category);
     },
     addItem(state, payload) {
-      state.items[payload.category].push(payload.item);
+      state.items[payload.item.name] = payload.item;
     }
   },
   actions: {
@@ -49,8 +53,9 @@ const appStore = {
       });
     },
     getItem(context, payload) {
-      db.items.get({ name: payload.item }).then(a => {
-        console.log(a);
+      return db.items.get({ name: payload.item }).then(a => {
+        context.commit("addItem", { item: a });
+        return;
       });
     },
     addCategory(context, payload) {
@@ -58,7 +63,7 @@ const appStore = {
         payload.image == "";
       }
       db.categories
-        .add({ name: payload.category, image: payload.image })
+        .add({ name: payload.name, image: payload.image })
         .then(result => {});
     },
     addItem(context, payload) {

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div id="root">
     <slot></slot>
   </div>
 </template>
 
 <style scoped>
-div {
-  padding: 18px 16px;
+#root {
+  padding: 1rem 1rem;
   border-bottom: solid 1px var(--app-border-color);
 }
 </style>

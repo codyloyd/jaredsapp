@@ -29,7 +29,7 @@ export default {};
 <style scoped>
 #root {
   background: var(--app-theme-color);
-  height: 48px;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;

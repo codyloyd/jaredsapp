@@ -1,21 +1,21 @@
 <template>
-  <div>
-    <app-layout headerTitle="app name">
-      <template v-for="category in categories">
-        <app-list-item>
-          <router-link :to="category.name" tag="button" class="button-reset">
-            {{category.name}} <app-chevron-right-icon fill="var(--app-border-color)"></app-chevron-right-icon>
-          </router-link>
-        </app-list-item>
-      </template>
-      <img :src="image" alt="">
-      <form @submit.prevent="submitForm">
-        <input type="file" name=image>
-        <button>submit</button>
-      </form>
-      <button @click="getImage">image</button>
-    </app-layout>
-  </div>
+<div>
+  <app-layout headerTitle="app name" :rightHeaderButton="rightHeaderButton">
+    <template v-for="category in categories">
+      <app-list-item>
+        <router-link :to="category.name" tag="button" class="button-reset">
+          {{category.name}} <app-chevron-right-icon fill="var(--app-border-color)"></app-chevron-right-icon>
+        </router-link>
+      </app-list-item>
+    </template>
+    <!-- <img :src="image" alt=""> -->
+    <!-- <form @submit.prevent="submitForm"> -->
+    <!--   <input type="file" name=image> -->
+    <!--   <button>submit</button> -->
+    <!-- </form> -->
+    <!-- <button @click="getImage">image</button> -->
+  </app-layout>
+</div>
 </template>
 
 <style scoped>
@@ -32,6 +32,7 @@ img {
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import appLayout from "./appLayout.vue";
+import appNewCategoryForm from "./appNewCategoryForm.vue";
 import appListItem from "./shared/appListItem.vue";
 import appChevronRightIcon from "./icons/appChevronRightIcon.vue";
 
@@ -39,15 +40,26 @@ export default {
   created() {
     this.setRouteTransition({ transition: "slide-left" });
   },
-  components: { appLayout, appListItem, appChevronRightIcon },
-  computed: { ...mapGetters(["categories"]) },
+  components: {
+    appLayout,
+    appListItem,
+    appChevronRightIcon,
+    appNewCategoryForm
+  },
+  computed: { ...mapGetters(["categories", "addingCategory"]) },
   data() {
     return {
-      image: ""
+      image: "",
+      rightHeaderButton: {
+        fn: () => {
+          this.setAddingCategory(true);
+        },
+        icon: "appAddIcon"
+      }
     };
   },
   methods: {
-    ...mapMutations(["setRouteTransition"]),
+    ...mapMutations(["setRouteTransition", "setAddingCategory"]),
     ...mapActions(["addCategory"]),
     getImage() {
       console.log(this.image);
@@ -65,3 +77,5 @@ export default {
   }
 };
 </script>
+
+  (setq js-indent-lev

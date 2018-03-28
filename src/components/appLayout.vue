@@ -14,7 +14,7 @@
       <template v-if="rightHeaderButton">
         <div class="icon" slot=right-icon>
           <button @click="rightHeaderButton.fn" class="button-reset">
-            <component :is="rightHeaderButton.fn"></component>
+            <component :is="rightHeaderButton.icon" fill="white"></component>
           </button>
         </div>
       </template>
@@ -37,13 +37,6 @@ import appChevronLeftIcon from "./icons/appChevronLeftIcon.vue";
 export default {
   components: { appHeader, appAddIcon, appChevronLeftIcon },
   props: ["headerTitle", "leftHeaderButton", "rightHeaderButton"],
-  methods: {
-    leftHeaderButtonFn() {
-      this.leftHeaderButton.fn();
-    },
-    dothing() {
-      alert("hi");
-    }
-  }
+  methods: {}
 };
 </script>
