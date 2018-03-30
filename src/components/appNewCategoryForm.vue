@@ -23,11 +23,10 @@ export default {
   },
   methods: {
     ...mapMutations(["setAddingCategory"]),
-    ...mapActions(["addCategory", "getData"]),
+    ...mapActions(["addCategory"]),
     buttonClick() {
       this.addCategory({ name: this.categoryName });
       this.setAddingCategory(false);
-      this.getData();
     },
     closeCategoryForm() {
       this.setAddingCategory(false);

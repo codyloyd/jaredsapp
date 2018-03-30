@@ -65,7 +65,6 @@ const appStore = {
     getItem(context, payload) {
       return db.items.get({ name: payload.item }).then(a => {
         context.commit("addItem", { item: a });
-        return;
       });
     },
     getItems(context, payload) {
@@ -87,7 +86,13 @@ const appStore = {
       if (!payload.image) {
         payload.image == "";
       }
-      db.categories.add({ name: payload.name, items: [] }).then(result => {});
+      return db.categories
+        .add({ name: payload.name, items: [] })
+        .then(result => {
+          context.commit("addCategory", {
+            category: { name: payload.name, items: [] }
+          });
+        });
     },
     addItem(context, payload) {
       return db.categories

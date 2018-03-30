@@ -14,7 +14,7 @@
 <script>
 export default {
   created() {
-    document.addEventListener("keyup", this.closeModal);
+    document.addEventListener("keydown", this.closeModal);
   },
   mounted() {
     this.modalShowing = true;

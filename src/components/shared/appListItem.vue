@@ -12,12 +12,4 @@
 </style>
 
 <script>
-import { mapActions } from "vuex";
-
-export default {
-  props: ["item"],
-  methods: {
-    ...mapActions(["getItem"])
-  }
-};
 </script>
