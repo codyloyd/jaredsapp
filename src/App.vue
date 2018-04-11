@@ -9,6 +9,9 @@
   <template v-if="addingItem">
     <app-new-item-form></app-new-item-form> 
   </template>
+  <template v-if="addingStep">
+    <app-new-step-form></app-new-step-form>
+  </template>
 </div>
 </template>
 
@@ -16,21 +19,22 @@
 import { mapGetters, mapActions } from "vuex";
 import appNewCategoryForm from "./components/appNewCategoryForm.vue";
 import appNewItemForm from "./components/appNewItemForm.vue";
+import appNewStepForm from "./components/appNewStepForm.vue"
 
 export default {
   created() {
-    this.getData();
+    this.getCategories();
   },
-  components: { appNewCategoryForm, appNewItemForm },
+  components: { appNewCategoryForm, appNewItemForm, appNewStepForm },
   name: "app",
   computed: {
-    ...mapGetters(["routeTransition", "addingCategory", "addingItem"])
+    ...mapGetters(["routeTransition", "addingCategory", "addingItem", "addingStep"])
   },
   data() {
     return {};
   },
   methods: {
-    ...mapActions(["getData"])
+    ...mapActions(["getCategories"])
   }
 };
 </script>

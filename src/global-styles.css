@@ -27,7 +27,11 @@ h1 {
     padding: .5em 2em;
 }
 
-input {
+.button[disabled] {
+    background: var(--app-border-color);
+}
+
+input, textarea {
     border: 1px solid var(--app-border-color);
     border-radius: 4px;
     padding: .5em 1em;

@@ -41,6 +41,7 @@ export default {
   created() {
     this.getItems({ category: this.categoryName }).then(x => {
       this.itemsFetched = true;
+      console.log(this.items(this.categoryName))
     });
   },
   updated() {},

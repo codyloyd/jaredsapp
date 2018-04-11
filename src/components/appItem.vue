@@ -1,27 +1,48 @@
 <template>
 <div>
-  <app-layout :headerTitle="itemName" :leftHeaderButton="leftHeaderButton">
-      <img :alt="itemName" :src="item(itemName).image"/>
-      <template v-for="step in item(itemName).steps">
+  <app-layout :headerTitle="itemName" :leftHeaderButton="leftHeaderButton" :rightHeaderButton="rightHeaderButton">
+    <template v-if="stepsFetched">
+      <template v-for="step in steps(itemName)">
         <app-list-item :item="step">
           <button class="button-reset" @click="navToStep(step)">
-            <div>
-              {{step.title}}
-            </div>
-            <div>
-              {{step.description}}
+            <img alt="" :src="step.image" class="step"/>
+            <div class="content">
+                <div class="title">
+                  {{step.title}}
+                </div>
+                <div class="description">
+                  {{step.description}}
+              </div>
             </div>
           </button>
         </app-list-item>
       </template>
+    </template>
   </app-layout>
 </div>
 </template>
 
-<style>
+<style scoped>
+button.button-reset {
+  display: flex;
+}
+.title {
+  font-size: 18px;
+}
+.description {
+  color: var(--app-text-secondary-color);
+  font-size: 14px;
+}
+.content {
+  margin-left: 12px;
+}
 img {
   max-width: 100%;
   height: 200px;
+}
+img.step {
+    max-width: 100%;
+    height: 90px;
 }
 </style>
   
@@ -33,26 +54,38 @@ import { mapMutations, mapActions, mapGetters } from "vuex";
 export default {
   components: { appLayout, appListItem },
   props: ["categoryName", "itemName"],
-  created() {},
+  created() {
+    this.getSteps({item: this.itemName}).then(()=>{
+      this.stepsFetched = true
+    })
+  },
   computed: {
-    ...mapGetters(["item"])
+    ...mapGetters(["item", "steps"])
   },
   data() {
     return {
+      stepsFetched: false,
       leftHeaderButton: {
         fn: () => {
           this.setRouteTransition({ transition: "slide-right" });
           this.$router.push("/" + this.categoryName);
         },
         icon: "appChevronLeftIcon"
-      }
+      },
+      rightHeaderButton: {
+        fn: () => {
+          this.setAddingStep(true);
+        },
+        icon: "appAddIcon"
+      },
     };
   },
   methods: {
-    ...mapMutations(["setRouteTransition"]),
-    ...mapActions(["getItem"]),
+    ...mapMutations(["setRouteTransition", "setAddingStep"]),
+    ...mapActions(["getItem", "getSteps"]),
     navToStep(step) {
-      console.log(step);
+      this.setRouteTransition({ transition: "slide-left" });
+      this.$router.push(`/${this.categoryName}/${this.itemName}/${step.id}`)
     }
   }
 };
