@@ -27,10 +27,12 @@
   img {
     box-sizing: border-box;
     padding: 1rem 1rem;
+    max-height: 400px;
+    object-fit: cover;
     width: 100%;
   }
   .description {
-    font-size: 14px;
+    font-size: .8rem;
     padding: 0 1rem;
     color: var(--app-text-secondary-color);
   }

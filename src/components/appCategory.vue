@@ -19,9 +19,10 @@
 
 <style scoped>
 img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+  border: 1px solid var(--app-border-color);
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
 }
 button {
   display: flex;

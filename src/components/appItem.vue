@@ -27,22 +27,20 @@ button.button-reset {
   display: flex;
 }
 .title {
-  font-size: 18px;
+  font-size: 1rem;
 }
 .description {
   color: var(--app-text-secondary-color);
-  font-size: 14px;
+  font-size: .8rem;
 }
 .content {
-  margin-left: 12px;
-}
-img {
-  max-width: 100%;
-  height: 200px;
+  margin-left: .8rem;
 }
 img.step {
-    max-width: 100%;
+    border: 1px solid var(--app-border-color);
+    width: 90px;
     height: 90px;
+    object-fit: cover;
 }
 </style>
   
