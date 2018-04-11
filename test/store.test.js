@@ -14,23 +14,24 @@ describe("Getters", () => {
   const { item } = getters;
   test("item", () => {
     const state = {
-      items: [{ id: "a" }, { id: "b" }]
+      items: [{ name: "a" }, { name: "b" }]
     };
-    expect(item(state)("b")).toEqual({ id: "b" });
+    expect(item(state)("b")).toEqual({ name: "b" });
   });
 
   const { items } = getters;
   test("items", () => {
     const state = {
+      categories: [{name: "foo", items:[1,3]}],
       items: [
-        { name: "a", category: "foo" },
-        { name: "b", category: "bar" },
-        { name: "c", category: "foo" }
+        { name: "a", id: 1 },
+        { name: "b", id: 2 },
+        { name: "c", id: 3 }
       ]
     };
     expect(items(state)("foo")).toEqual([
-      { name: "a", category: "foo" },
-      { name: "c", category: "foo" }
+      { name: "a", id: 1 },
+      { name: "c", id: 3 }
     ]);
   });
 

@@ -35,8 +35,9 @@ const appStore = {
       return state.steps.find(i => i.id == id);
     },
     items: state => categoryName => {
+      const category = state.categories.filter(c => c.name == categoryName)[0];
       return state.items.filter(item => {
-        return item.category == categoryName;
+        return category.items.includes(item.id);
       });
     },
     steps: state => itemName => {
@@ -75,7 +76,14 @@ const appStore = {
       state.categories.push(payload.category);
     },
     addItem(state, payload) {
+      const category = state.categories.find(
+        c => c.name === payload.item.category
+      );
+      console.log(category, payload, state);
       if (!state.items.find(item => item.id === payload.item.id)) {
+        if (category && !category.items.includes(payload.item.id)) {
+          category.items.push(payload.item.id);
+        }
         state.items.push(payload.item);
       }
     },
@@ -150,16 +158,17 @@ const appStore = {
         });
     },
     addItem(context, payload) {
-      return db.categories
-        .where("id")
-        .equals(payload.category)
-        .modify(category => {
-          category.items.push(payload.id);
-        })
-        .then(() => {
-          context.commit("addItem", { item: payload });
-          return db.items.add(payload).then(result => {});
-        });
+      return db.items.add(payload).then(result => {
+        return db.categories
+          .where("name")
+          .equals(payload.category)
+          .modify(category => {
+            category.items.push(result);
+          })
+          .then(() => {
+            context.commit("addItem", { item: payload });
+          });
+      });
     },
     addStep(context, payload) {
       return db.steps
