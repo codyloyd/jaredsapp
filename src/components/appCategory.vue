@@ -2,15 +2,19 @@
 <div>
   <app-layout :headerTitle="categoryName" :leftHeaderButton="leftHeaderButton" :rightHeaderButton="rightHeaderButton">
     <template v-if="itemsFetched">
-    <template v-for="item in items(categoryName)">
-      <app-list-item :item="item.name" :key="item.id">
-        <button class="button-reset" @click="navToItem(item.name)">
-          <img alt="" :id="item.id + item.name" :src="item.image"/>
-          <span class="item-name">
-            {{item.name}}
-          </span>
-          </button>
-        </app-list-item>
+      <template v-for="item in items(categoryName)">
+        <div class="list-item-container">
+          <app-list-item :slid="slidItem == item.name" :item="item.name" :key="item.id">
+            <button class="button-reset" @click="navToItem(item.name)">
+              <img alt="" :id="item.id + item.name" :src="item.image"/>
+              <span class="item-name">
+                {{item.name}}
+              </span>
+            </button>
+            <button @click="slidItem = item.name">slide</button>
+          </app-list-item>
+          <app-action-buttons></app-action-buttons>
+        </div>
       </template>
     </template>
     </app-layout>
@@ -18,6 +22,9 @@
 </template>
 
 <style scoped>
+.test {
+  background: red;
+}
 img {
   border: 1px solid var(--app-border-color);
   width: 90px;
@@ -31,12 +38,16 @@ button {
 .item-name {
   margin-left: 8px;
 }
+.list-item-container {
+  position: relative;
+}
 </style>
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
 import appLayout from "./appLayout.vue";
 import appListItem from "./shared/appListItem.vue";
+import appActionButtons from "./shared/appActionButtons.vue";
 
 export default {
   created() {
@@ -46,10 +57,11 @@ export default {
     });
   },
   updated() {},
-  components: { appListItem, appLayout },
+  components: { appListItem, appLayout, appActionButtons },
   props: ["categoryName"],
   data() {
     return {
+      slidItem: null,
       itemsFetched: false,
       leftHeaderButton: {
         fn: () => {
@@ -67,7 +79,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["category", "item", "items"])
+    ...mapGetters(["category", "item", "items"]),
   },
   methods: {
     ...mapMutations(["setRouteTransition", "setAddingItem"]),

@@ -1,10 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 html {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --app-theme-color: #0267c1;
-  --app-text-primary-color: #222222;
-  --app-text-secondary-color: #767676;
-  --app-border-color: #e2e2e2;
+  --app-theme-color: #2E86DE;
+  --app-text-primary-color: #222f3e;
+  --app-text-secondary-color: #576574;
+  --app-danger-color: #EE5253;
+  --app-border-color: #c8d6e5;
   font-size: 24px;
 }
 
