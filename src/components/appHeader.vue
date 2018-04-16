@@ -35,6 +35,7 @@ export default {};
   align-items: center;
   box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 0.3);
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   right: 0;

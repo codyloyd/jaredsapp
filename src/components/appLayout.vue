@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="root">
   <appHeader>
     <template v-if="leftHeaderButton">
       <div class="icon" slot=left-icon>

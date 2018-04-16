@@ -1,21 +1,46 @@
 <template>
-  <div id="root">
-    BUTTONS GO HERE
-  </div>
+<div id="root">
+  <button class="button-reset" @click="editFunc"><app-edit-icon fill="white"></app-edit-icon></button>
+  <button class="button-reset delete" @click="deleteFunc"><app-delete-icon fill="white"></app-delete-icon></button>
+</div>
 </template>
 
 <style scoped>
 #root {
+  display: flex;
   background: var(--app-theme-color);
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
-  width: 8rem;
-  z-index: -1;
-  box-shadow: inset 0px 0px 2px 2px rgba(0,0,0,.3);
+  width: 6rem;
+}
+.button-reset {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete {
+  background: var(--app-danger-color);
 }
 </style>
 
 <script>
+import appEditIcon from "../icons/appEditIcon.vue"
+import appDeleteIcon from "../icons/appDeleteIcon.vue"
+
+export default {
+  props: ["edit"],
+  components: {appEditIcon, appDeleteIcon},
+  methods: {
+    editFunc(){
+      this.$emit('edit')
+    },
+    deleteFunc() {
+      this.$emit('delete')
+    }
+  }
+}
 </script>

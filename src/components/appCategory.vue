@@ -3,7 +3,8 @@
   <app-layout :headerTitle="categoryName" :leftHeaderButton="leftHeaderButton" :rightHeaderButton="rightHeaderButton">
     <template v-if="itemsFetched">
       <template v-for="item in items(categoryName)">
-        <div class="list-item-container">
+        <div class="list-item-container" v-touch:swipe="swipeHandler(item.name)">
+          <app-action-buttons @edit="editFunction" @delete="deleteFunction"></app-action-buttons>
           <app-list-item :slid="slidItem == item.name" :item="item.name" :key="item.id">
             <button class="button-reset" @click="navToItem(item.name)">
               <img alt="" :id="item.id + item.name" :src="item.image"/>
@@ -11,9 +12,7 @@
                 {{item.name}}
               </span>
             </button>
-            <button @click="slidItem = item.name">slide</button>
           </app-list-item>
-          <app-action-buttons></app-action-buttons>
         </div>
       </template>
     </template>
@@ -84,6 +83,21 @@ export default {
   methods: {
     ...mapMutations(["setRouteTransition", "setAddingItem"]),
     ...mapActions(["getItem", "getData", "getItems"]),
+    editFunction() {
+      console.log('editing item');
+    },
+    deleteFunction() {
+      console.log('deleting item');
+    },
+    swipeHandler(itemName){
+      return (dir, e) => {
+        if (dir != "left") {
+          this.slidItem = null
+        } else {
+          this.slidItem = itemName
+        }
+      }
+    },
     fetchItems() {
       this.getData().then(() => {
         this.category(this.categoryName).items.forEach(item => {

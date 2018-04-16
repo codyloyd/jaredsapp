@@ -75,6 +75,11 @@ const appStore = {
     addCategory(state, payload) {
       state.categories.push(payload.category);
     },
+    deleteCategory(state, payload) {
+      state.categories = state.categories.filter(
+        c => c.name !== payload.category
+      );
+    },
     addItem(state, payload) {
       const category = state.categories.find(
         c => c.name === payload.item.category
@@ -187,6 +192,16 @@ const appStore = {
         })
         .then(() => {
           return db.steps.add(payload.step).then(result => {});
+        });
+    },
+    deleteCategory(context, payload) {
+      // must remove items inside category!!
+      return db.categories
+        .where("name")
+        .equals(payload.category)
+        .delete()
+        .then(result => {
+          context.commit("deleteCategory", payload);
         });
     }
   }
