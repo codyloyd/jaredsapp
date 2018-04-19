@@ -5,7 +5,7 @@ const db = new Dexie("jaredsApp");
 db.version(1).stores({
   categories: `id++,name`,
   items: `id++,name`,
-  steps: `id++`
+  steps: `id++,title`
 });
 
 db.open();

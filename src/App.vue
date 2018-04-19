@@ -3,13 +3,13 @@
   <transition :name="routeTransition">
     <router-view></router-view>
   </transition>
-  <template v-if="addingCategory">
+  <template v-if="addingCategory || editingCategory">
     <app-new-category-form></app-new-category-form> 
   </template>
-  <template v-if="addingItem">
+  <template v-if="addingItem || editingItem">
     <app-new-item-form></app-new-item-form> 
   </template>
-  <template v-if="addingStep">
+  <template v-if="addingStep || editingStep">
     <app-new-step-form></app-new-step-form>
   </template>
 </div>
@@ -19,7 +19,7 @@
 import { mapGetters, mapActions } from "vuex";
 import appNewCategoryForm from "./components/appNewCategoryForm.vue";
 import appNewItemForm from "./components/appNewItemForm.vue";
-import appNewStepForm from "./components/appNewStepForm.vue"
+import appNewStepForm from "./components/appNewStepForm.vue";
 
 export default {
   created() {
@@ -28,7 +28,15 @@ export default {
   components: { appNewCategoryForm, appNewItemForm, appNewStepForm },
   name: "app",
   computed: {
-    ...mapGetters(["routeTransition", "addingCategory", "addingItem", "addingStep"])
+    ...mapGetters([
+      "routeTransition",
+      "addingCategory",
+      "addingItem",
+      "addingStep",
+      "editingCategory",
+      "editingItem",
+      "editingStep"
+    ])
   },
   data() {
     return {};

@@ -1,35 +1,50 @@
 <template>
   <appModal :closeFunction="closeCategoryForm">
     <div class="modal-container">
-      <h2>New category</h2>
+      <h2>{{editingCategory ? "Edit" : "New"}} category</h2>
       <form>
         <input autofocus name="category" placeholder="category title" type="text" v-model="categoryName" value=""/>
-        <button class="button" @click.prevent="buttonClick">create</button>
+        <button class="button" @click.prevent="buttonClick">{{editingCategory ? "update" : "create"}}</button>
       </form>
     </div>
   </appModal>
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapMutations, mapGetters } from "vuex";
 import appModal from "./shared/appModal.vue";
 
 export default {
   components: { appModal },
+  created() {
+    if (this.editingCategory) {
+      this.categoryName = this.editingCategory.category;
+    }
+  },
+  computed: { ...mapGetters(["editingCategory"]) },
   data() {
     return {
       categoryName: ""
     };
   },
   methods: {
-    ...mapMutations(["setAddingCategory"]),
-    ...mapActions(["addCategory"]),
+    ...mapMutations(["setAddingCategory", "setEditingCategory"]),
+    ...mapActions(["addCategory", "updateCategory"]),
     buttonClick() {
-      this.addCategory({ name: this.categoryName });
-      this.setAddingCategory(false);
+      if (this.editingCategory) {
+        this.updateCategory({
+          oldName: this.editingCategory.category,
+          name: this.categoryName
+        });
+        this.setEditingCategory(null);
+      } else {
+        this.addCategory({ name: this.categoryName });
+        this.setAddingCategory(false);
+      }
     },
     closeCategoryForm() {
       this.setAddingCategory(false);
+      this.setEditingCategory(null);
     }
   }
 };

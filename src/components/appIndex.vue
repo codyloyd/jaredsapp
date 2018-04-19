@@ -3,7 +3,7 @@
   <app-layout headerTitle="app name" :rightHeaderButton="rightHeaderButton">
     <template v-for="category in categories">
       <div class="list-item-container">
-        <app-action-buttons @edit="editFunction" @delete="deleteFunction(category.name)"></app-action-buttons>
+        <app-action-buttons @edit="editFunction(category.name)" @delete="deleteFunction(category.name)"></app-action-buttons>
         <app-list-item :slid="category.name == slidItem" v-touch:swipe="swipeHandler(category.name)">
           <router-link :to="category.name" tag="button" class="button-reset">
             {{category.name}} <app-chevron-right-icon fill="var(--app-border-color)"></app-chevron-right-icon>
@@ -35,12 +35,11 @@ import appLayout from "./appLayout.vue";
 import appNewCategoryForm from "./appNewCategoryForm.vue";
 import appListItem from "./shared/appListItem.vue";
 import appChevronRightIcon from "./icons/appChevronRightIcon.vue";
-import appActionButtons from "./shared/appActionButtons.vue"
+import appActionButtons from "./shared/appActionButtons.vue";
 
 export default {
   created() {
     this.setRouteTransition({ transition: "slide-left" });
-    console.log(this.categories);
   },
   components: {
     appLayout,
@@ -62,25 +61,44 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setRouteTransition", "setAddingCategory"]),
+    ...mapMutations([
+      "setRouteTransition",
+      "setAddingCategory",
+      "setEditingCategory"
+    ]),
     ...mapActions(["addCategory", "deleteCategory"]),
-    editFunction() {
-      console.log('editing category')
+    editFunction(category) {
+      this.setEditingCategory({ category });
     },
     deleteFunction(category) {
-      this.deleteCategory({category})
+      let message = "Really delete this category?";
+
+      let options = {
+        okText: "Delete",
+        cancelText: "Cancel",
+        animation: "fade",
+        backdropClose: true
+      };
+      this.$dialog
+        .confirm(message, options)
+        .then(() => {
+          this.deleteCategory({ category });
+          console.log("Clicked on proceed");
+        })
+        .catch(function(e) {
+          console.log(e);
+          console.log("Clicked on cancel");
+        });
     },
-    swipeHandler(itemName){
+    swipeHandler(itemName) {
       return (dir, e) => {
         if (dir != "left") {
-          this.slidItem = null
+          this.slidItem = null;
         } else {
-          this.slidItem = itemName
+          this.slidItem = itemName;
         }
-      }
-    },
+      };
+    }
   }
 };
 </script>
-
-  (setq js-indent-lev

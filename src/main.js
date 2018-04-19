@@ -6,7 +6,10 @@ import routes from "./routes.js";
 import appStore from "./store.js";
 import App from "./App.vue";
 import Vue2TouchEvents from 'vue2-touch-events';
+import VuejsDialog from "vuejs-dialog";
 
+
+Vue.use(VuejsDialog);
 Vue.use(Vue2TouchEvents);
 Vue.use(VueRouter);
 Vue.use(Vuex);

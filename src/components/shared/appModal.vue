@@ -64,8 +64,10 @@ export default {
   right: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 5000;
 }
 .modal {
+  z-index: 5001;
   width: 90%;
   max-width: 400px;
   border-radius: 4px;

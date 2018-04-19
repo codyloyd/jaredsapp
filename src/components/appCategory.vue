@@ -4,7 +4,7 @@
     <template v-if="itemsFetched">
       <template v-for="item in items(categoryName)">
         <div class="list-item-container" v-touch:swipe="swipeHandler(item.name)">
-          <app-action-buttons @edit="editFunction" @delete="deleteFunction"></app-action-buttons>
+          <app-action-buttons @edit="editFunction(item)" @delete="deleteFunction(item)"></app-action-buttons>
           <app-list-item :slid="slidItem == item.name" :item="item.name" :key="item.id">
             <button class="button-reset" @click="navToItem(item.name)">
               <img alt="" :id="item.id + item.name" :src="item.image"/>
@@ -52,7 +52,6 @@ export default {
   created() {
     this.getItems({ category: this.categoryName }).then(x => {
       this.itemsFetched = true;
-      console.log(this.items(this.categoryName))
     });
   },
   updated() {},
@@ -78,25 +77,41 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["category", "item", "items"]),
+    ...mapGetters(["category", "item", "items"])
   },
   methods: {
-    ...mapMutations(["setRouteTransition", "setAddingItem"]),
-    ...mapActions(["getItem", "getData", "getItems"]),
-    editFunction() {
-      console.log('editing item');
+    ...mapMutations(["setRouteTransition", "setAddingItem", "setEditingItem"]),
+    ...mapActions(["getItem", "getData", "getItems", "deleteItem"]),
+    editFunction(item) {
+      this.setEditingItem(item);
     },
-    deleteFunction() {
-      console.log('deleting item');
+    deleteFunction(item) {
+      let message = "Really delete this item?";
+
+      let options = {
+        okText: "Delete",
+        cancelText: "Cancel",
+        animation: "fade",
+        backdropClose: true
+      };
+      this.$dialog
+        .confirm(message, options)
+        .then(() => {
+          this.deleteItem({ item: item.id, category: this.categoryName });
+          console.log("Clicked on proceed");
+        })
+        .catch(function(e) {
+          console.log("Clicked on cancel");
+        });
     },
-    swipeHandler(itemName){
+    swipeHandler(itemName) {
       return (dir, e) => {
         if (dir != "left") {
-          this.slidItem = null
+          this.slidItem = null;
         } else {
-          this.slidItem = itemName
+          this.slidItem = itemName;
         }
-      }
+      };
     },
     fetchItems() {
       this.getData().then(() => {
